@@ -1,38 +1,26 @@
-.App {
-  text-align: center;
+.App{
+  width: 100%;
+  height: 100vh;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@font-face {
+  font-family: 'Mate SC';
+  src: local('Mate SC'), url(./fonts/MateSC-Regular.ttf) format('opentype');
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+@font-face {
+  font-family: 'Oswald';
+  font-weight: 900;
+  src: local('Mate SC'), url(./fonts/Oswald-Bold.ttf) format('opentype');
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+@font-face {
+  font-family: 'Oswald';
+  font-weight: 700;
+  src: local('Mate SC'), url(./fonts/Oswald-Medium.ttf) format('opentype');
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+@font-face {
+  font-family: 'Oswald';
+  src: local('Mate SC'), url(./fonts/Oswald-Regular.ttf) format('opentype');
 }

@@ -1,0 +1,18 @@
+.Card{
+  width: 500px;
+  height: 300px;
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .Name{
+    font-size: 34px;
+    font-weight: bold;
+  }
+}
