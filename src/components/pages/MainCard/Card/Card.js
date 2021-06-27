@@ -4,7 +4,7 @@ import classes from "./Card.module.scss"
 const Card = (props) => {
     return(
         <div className={`${classes.Card} card_id`} id='card'>
-            <div className={classes.Name}>{props.content.engCategory}</div>
+            <div className={classes.Name}>{props.content}</div>
         </div>
     )
 }

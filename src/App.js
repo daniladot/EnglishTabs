@@ -24,7 +24,6 @@ function App(props) {
             if (document.getElementById('main-window').style.opacity > 0) {
                 setTimeout(() => {
                     document.getElementById('main-window').style.opacity = +document.getElementById('main-window').style.opacity - 0.05
-                    console.log(document.getElementById('main-window'))
                     recurse()
                 }, 5)
             } else {
