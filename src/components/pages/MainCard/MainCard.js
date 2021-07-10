@@ -22,6 +22,7 @@ const MainCard = (props) => {
 
 
     const openCard = () => {
+        console.log(mainCardRef)
         mainCardRef.current.style = '0'
         const recurse = () => {
             if (mainCardRef.current.style.opacity < 1)
@@ -46,9 +47,16 @@ const MainCard = (props) => {
                         recurse()
                     }, 5)
                 } else {
-                    openCard()
-                    nullifyStyle()
-                    props.getNewContentMainCard(props.storeApp.contentActiveItem)
+                    if (props.store.indexCard < props.store.allCount-1) {
+                        openCard()
+                        nullifyStyle()
+                    }
+                    console.log(props.store.indexCard < props.store.allCount)
+                    console.log(props.store.allCount)
+                    if (props.store.indexCard < props.store.allCount-1)
+                        props.getNewContentMainCard(props.storeApp.contentActiveItem)
+                    else
+                        props.getFinishMainCard(props.storeApp)
                     return true
                 }
             }
@@ -62,9 +70,16 @@ const MainCard = (props) => {
                         recurse()
                     }, 5)
                 } else {
-                    openCard()
-                    nullifyStyle()
-                    props.getNewContentMainCard(props.storeApp.contentActiveItem)
+                    if (props.store.indexCard < props.store.allCount-1) {
+                        openCard()
+                        nullifyStyle()
+                    }
+                    console.log(props.store.indexCard < props.store.allCount)
+                    console.log(props.store.allCount)
+                    if (props.store.indexCard < props.store.allCount-1)
+                        props.getNewContentMainCard(props.storeApp.contentActiveItem)
+                    else
+                        props.getFinishMainCard(props.storeApp)
                     return true
                 }
             }
@@ -77,7 +92,6 @@ const MainCard = (props) => {
         const recurse = () => {
             if (rightRef.current.style.width.split('px')[0] < window.innerWidth) {
                 setTimeout(() => {
-                    console.log(rightRef.current.style.width)
                     let countRight = rightRef.current.style.width.split('px')[0]
                     let countLeft = leftRef.current.style.width.split('px')[0]
                     countRight = +countRight + 10
@@ -158,5 +172,8 @@ export default connect(
         getNewContentMainCard: store => {
             dispatch({type: 'GET_NEW_CONTENT_MAIN_CARD', payload: store})
         },
+        getFinishMainCard: store => {
+            dispatch({type: 'GET_FINISH_CONTENT_MAIN_CARD', payload: store})
+        }
     })
 )(MainCard)

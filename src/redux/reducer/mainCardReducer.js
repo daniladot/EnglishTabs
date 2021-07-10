@@ -10,13 +10,13 @@ export default function mainCardReducer(state = initState, action){
         case 'GET_CONTENT_MAIN_CARD':
             state.content = action.payload.content[state.indexCard].eng
             state.indexCard = 0
-            console.log(action.payload.content[state.indexCard].eng)
+            state.allCount = action.payload.content.length
             return {...state}
         case 'GET_NEW_CONTENT_MAIN_CARD':
             console.log(action)
             state.indexCard++
-            console.log(action.payload.content[state.indexCard].eng)
             state.content = action.payload.content[state.indexCard].eng
+            state.allCount = action.payload.content.length
             return {...state}
         default:
             return state
