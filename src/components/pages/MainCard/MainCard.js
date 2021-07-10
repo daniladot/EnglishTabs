@@ -1,31 +1,32 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useRef} from "react"
 import classes from "./MainCard.module.scss"
 import {connect} from "react-redux";
 import Card from "./Card/Card";
 
 const MainCard = (props) => {
+    const mainCardRef = useRef(null)
+    const rightRef = useRef(null)
+    const leftRef = useRef(null)
+    const cardRef = useRef(null)
 
     const clickPositive = () => {
-        console.log('clickPositive')
         animationPositive()
         animationCard('positive')
-        props.getNewContentMainCard(props.storeApp.contentActiveItem)
+
     }
 
     const clickNegative = () => {
-        console.log('clickNegative')
         animationNegative()
         animationCard('negative')
-        props.getNewContentMainCard(props.storeApp.contentActiveItem)
     }
 
 
     const openCard = () => {
-        // document.getElementById('main-card').style.opacity = 0
+        mainCardRef.current.style = '0'
         const recurse = () => {
-            if (document.getElementById('main-card').style.opacity < 1)
+            if (mainCardRef.current.style.opacity < 1)
                 setTimeout(() => {
-                    document.getElementById('main-card').style.opacity = +document.getElementById('main-card').style.opacity + 0.05
+                    mainCardRef.current.style.opacity = +mainCardRef.current.style.opacity + 0.05
                     recurse()
                 }, 10)
         }
@@ -34,28 +35,37 @@ const MainCard = (props) => {
 
     const animationCard = (offset) => {
         let recurse
-        const card = document.getElementById('card')
-        card.style.left = `${card.offsetLeft}px`
+        cardRef.current.style.left = `${cardRef.current.offsetLeft}px`
         if (offset === 'positive') {
             recurse = () => {
-                if (card.style.left.split('px')[0] < window.innerWidth + 500) {
+                if (cardRef.current.style.left.split('px')[0] < window.innerWidth + 500) {
                     setTimeout(() => {
-                        let count = card.style.left.split('px')[0]
+                        let count = cardRef.current.style.left.split('px')[0]
                         count = +count + 10
-                        card.style.left = `${count}px`
+                        cardRef.current.style.left = `${count}px`
                         recurse()
                     }, 5)
+                } else {
+                    openCard()
+                    nullifyStyle()
+                    props.getNewContentMainCard(props.storeApp.contentActiveItem)
+                    return true
                 }
             }
-        } else {
+        } else if (offset === 'negative') {
             recurse = () => {
-                if (card.style.left.split('px')[0] > 0 - 500) {
+                if (cardRef.current.style.left.split('px')[0] > 0 - 500) {
                     setTimeout(() => {
-                        let count = card.style.left.split('px')[0]
+                        let count = cardRef.current.style.left.split('px')[0]
                         count = +count - 10
-                        card.style.left = `${count}px`
+                        cardRef.current.style.left = `${count}px`
                         recurse()
                     }, 5)
+                } else {
+                    openCard()
+                    nullifyStyle()
+                    props.getNewContentMainCard(props.storeApp.contentActiveItem)
+                    return true
                 }
             }
         }
@@ -63,19 +73,17 @@ const MainCard = (props) => {
     }
 
     const animationPositive = () => {
-        const right = document.getElementById('right')
-        const left = document.getElementById('left')
-        right.style.width = `${right.offsetLeft}px`
+        rightRef.current.style.width = `${rightRef.current.offsetLeft}px`
         const recurse = () => {
-            if (right.style.width.split('px')[0] < window.innerWidth) {
+            if (rightRef.current.style.width.split('px')[0] < window.innerWidth) {
                 setTimeout(() => {
-
-                    let countRight = right.style.width.split('px')[0]
-                    let countLeft = left.style.width.split('px')[0]
+                    console.log(rightRef.current.style.width)
+                    let countRight = rightRef.current.style.width.split('px')[0]
+                    let countLeft = leftRef.current.style.width.split('px')[0]
                     countRight = +countRight + 10
                     countLeft = +countLeft - 10
-                    right.style.width = `${countRight}px`
-                    left.style.width = `${countLeft}px`
+                    rightRef.current.style.width = `${countRight}px`
+                    leftRef.current.style.width = `${countLeft}px`
                     return recurse()
                 }, 5)
             }
@@ -84,19 +92,18 @@ const MainCard = (props) => {
     }
 
     const animationNegative = () => {
-        const right = document.getElementById('right')
-        const left = document.getElementById('left')
-        right.style.width = `${right.offsetLeft}px`
-        left.style.width = right.style.width
+
+        rightRef.current.style.width = `${rightRef.current.offsetLeft}px`
+        leftRef.current.style.width = rightRef.current.style.width
         const recurse = () => {
-            if (left.style.width.split('px')[0] < window.innerWidth) {
+            if (leftRef.current.style.width.split('px')[0] < window.innerWidth) {
                 setTimeout(() => {
-                    let countRight = right.style.width.split('px')[0]
-                    let countLeft = left.style.width.split('px')[0]
+                    let countRight = rightRef.current.style.width.split('px')[0]
+                    let countLeft = leftRef.current.style.width.split('px')[0]
                     countLeft = +countLeft + 10
                     countRight = +countRight - 10
-                    right.style.width = `${countRight}px`
-                    left.style.width = `${countLeft}px`
+                    rightRef.current.style.width = `${countRight}px`
+                    leftRef.current.style.width = `${countLeft}px`
                     return recurse()
                 }, 5)
             }
@@ -104,27 +111,33 @@ const MainCard = (props) => {
         recurse()
     }
 
+    const nullifyStyle = () => {
+        rightRef.current.style.width = '50%'
+        leftRef.current.style.width = '50%'
+        cardRef.current.style.left = '50%'
+    }
 
-    console.log(props.store)
+
+    // console.log(props.store)
     useEffect(() => {
         openCard()
         props.getContentMainCard(props.storeApp.contentActiveItem)
     }, [])
 
     // console.log(props.store.content.content[props.store.indexCard])
-    // console.log(props.store.indexCard)
     return (
-        <div className={classes.MainCard} id='main-card'>
+        <div className={classes.MainCard} ref={mainCardRef}>
             <div className={classes.Left}
-                 id='left'
+                 ref={leftRef}
                  onClick={() => clickNegative()}
             />
             <div className={classes.Right}
-                 id='right'
+                 ref={rightRef}
                  onClick={() => clickPositive()}
             />
             <Card
                 content={props.store.content}
+                ref={cardRef}
             />
         </div>
     )
@@ -143,7 +156,7 @@ export default connect(
             dispatch({type: 'GET_CONTENT_MAIN_CARD', payload: store})
         },
         getNewContentMainCard: store => {
-            dispatch({type:'GET_NEW_CONTENT_MAIN_CARD', payload: store})
-        }
+            dispatch({type: 'GET_NEW_CONTENT_MAIN_CARD', payload: store})
+        },
     })
 )(MainCard)
